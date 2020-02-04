@@ -17,7 +17,7 @@ accum("cwAt") -> "C-Ww-Aaa-Tttt"
 
 
 def accum(*args, **kwargs):
-    pass
+    return '-'.join(map(lambda x: (x[1] * x[0]).title(), enumerate(*args, 1)))
 
 
 """
@@ -39,7 +39,7 @@ there are 10 matches in the championship
 
 
 def points(*args, **kwargs):
-    pass
+    return sum()
 
 
 """
