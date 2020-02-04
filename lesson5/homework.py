@@ -52,7 +52,8 @@ def points(*args, **kwargs):
 
 
 def max_number_count(*args, **kwargs):
-    pass
+    return max({i: list(*args).count(i) for i in list(*args)}.items(),
+               key=lambda x: x[1])
 
 
 if __name__ == '__main__':
