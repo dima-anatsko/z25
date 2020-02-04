@@ -57,7 +57,7 @@ if __name__ == '__main__':
     assert custom_range(1, 4) == [1, 2, 3]
     assert custom_range(1, 4, 2) == [1, 3]
     assert custom_range(1, 1, 2) == []
-    assert custom_range(5) == [1, 2, 3, 4]
+    assert custom_range(5) == [0, 1, 2, 3, 4]
     print('custom_range - OK')
 
     assert accum("abcd") == "A-Bb-Ccc-Dddd"
