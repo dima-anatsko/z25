@@ -1,0 +1,27 @@
+python3.8 -m venv lesson4
+source lesson4/bin/activate
+pip list
+pip install --upgrade setuptools
+pip install --upgrade pip
+pip install flake8
+cd lesson4
+git init
+git clone https://github.com/dima-anatsko/z25.git
+cd z25
+git branch lesson4_anatsko
+git checkout lesson4_anatsko 
+cd lesson4
+flake8 1.py
+git add 1.py
+git commit -m "Add homework 1"
+flake8 2.py
+git add 2.py
+git commit -m "Add homework 2"
+flake8 3.py
+git add 3.py
+git commit -m "Add homework 3"
+flake8 4.py
+git add 4.py
+git commit -m "Add homework 4"
+git push origin lesson4_anatsko 
+deactivate
