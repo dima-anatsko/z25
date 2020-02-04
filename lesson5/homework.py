@@ -5,7 +5,7 @@
 
 
 def custom_range(*args, **kwargs):
-    pass
+    return list(range(*args))
 
 
 """
