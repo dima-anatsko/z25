@@ -39,7 +39,9 @@ there are 10 matches in the championship
 
 
 def points(*args, **kwargs):
-    return sum()
+    return sum(
+        map(lambda x: 3 if x[0] > x[-1] else (1 if x[0] == x[-1] else 0),
+            *args))
 
 
 """
