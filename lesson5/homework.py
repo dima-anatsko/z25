@@ -4,7 +4,7 @@
 """
 
 
-def custom_range(*args, **kwargs):
+def custom_range(*args):
     return list(range(*args))
 
 
@@ -16,8 +16,8 @@ accum("cwAt") -> "C-Ww-Aaa-Tttt"
 """
 
 
-def accum(*args, **kwargs):
-    return '-'.join(map(lambda x: (x[1] * x[0]).title(), enumerate(*args, 1)))
+def accum(string):
+    return '-'.join(map(lambda x: (x[1] * x[0]).title(), enumerate(string, 1)))
 
 
 """
