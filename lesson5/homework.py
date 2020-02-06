@@ -49,9 +49,11 @@ def points(_list):
 """
 
 
-def max_number_count(*args, **kwargs):
-    return max({i: list(*args).count(i) for i in list(*args)}.items(),
-               key=lambda x: x[1])
+def max_number_count(_list):
+    dict_count = {}
+    for item in _list:
+        dict_count[item] = dict_count.get(item, 0) + 1
+    return max(dict_count.items(), key=lambda x: x[1])
 
 
 if __name__ == '__main__':
