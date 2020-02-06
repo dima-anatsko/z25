@@ -4,8 +4,16 @@
 """
 
 
-def custom_range(*args):
-    return list(range(*args))
+def custom_range(stop, start=None, step=1):
+    result = []
+    if start is None:
+        start = 0
+    else:
+        start, stop = stop, start
+    while start < stop:
+        result.append(start)
+        start += step
+    return result
 
 
 """
