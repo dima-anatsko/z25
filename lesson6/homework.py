@@ -111,8 +111,22 @@ print(h(2, 3, 9))
 """
 
 
-def composition(*args, **kwargs):
-    pass
+def composition(func_1, func_2):
+    def decorator(*args, **kwargs):
+        return func_1(func_2(*args, **kwargs))
+    return decorator
+
+
+def my_add(number):
+    return number + 1
+
+
+def my_square(number):
+    return number ** 2
+
+
+def my_degree(*args):
+    return map(lambda x: x[1] ** x[0], enumerate(args, 2))
 
 
 """
@@ -195,3 +209,8 @@ if __name__ == "__main__":
     assert sort_by_abc('18 8 12 2 13 6 4 1') == [8, 18, 4, 1, 6, 13, 12, 2]
     assert sort_by_abc('18 8 13 3 16 6 19 9') == [8, 18, 9, 19, 6, 16, 13, 3]
     print('sort_by_abc - OK')
+    assert composition(sum, my_degree)(2, 3, 9) == 6592
+    assert composition(lambda x: x**2, lambda x: x + 1)(5) == 36
+    assert composition(my_square, my_add)(6) == 49
+    assert composition(lambda x: x, composition(my_square, my_add))(5) == 36
+    print('composition - OK')
