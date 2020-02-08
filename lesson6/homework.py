@@ -226,8 +226,31 @@ Ex6
 """
 
 
-def timer(*args, **kwargs):
-    pass
+def timer(func):
+    from datetime import datetime
+
+    def decorator(*args, **kwargs):
+        start = datetime.now()
+        result = func(*args, **kwargs)
+        end = datetime.now()
+        time = datetime.timestamp(end) - datetime.timestamp(start)
+        return result, time
+    return decorator
+
+
+@timer
+def max_number_count_dict(number):
+    _list = list(range(number))
+    counter = {}
+    for item in _list:
+        counter[item] = counter.get(item, 0) + 1
+    return max(counter.items(), key=lambda x: x[1])
+
+
+@timer
+def max_number_count_list(number):
+    _list = list(range(number))
+    return max({i: _list.count(i) for i in _list}.items(), key=lambda x: x[1])
 
 
 if __name__ == "__main__":
@@ -252,10 +275,12 @@ if __name__ == "__main__":
     assert composition(my_square, my_add)(6) == 49
     assert composition(lambda x: x, composition(my_square, my_add))(5) == 36
     print('composition - OK')
-    assert div(2, 4, show=True) == 2.0
-    assert diff(2, 4, show=True) == 2
+    assert div(2, 4, show=False) == 2.0
+    assert diff(2, 4, show=False) == 2
     assert my_print('world!', 'Hello, ', 'Vasja! ') == 'Vasja! Hello, world!'
     print('flip - OK')
     assert identity_1(45) == "identity_1\n45"
     assert identity_2(33) == "33"
     print('introduce_on_debug - OK')
+    print(max_number_count_dict(100000))  # 0.02s
+    print(max_number_count_list(100000))  # 96.47s
