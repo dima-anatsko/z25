@@ -66,8 +66,14 @@ number_names = {
 """
 
 
-def sort_by_abc(*args, **kwargs):
-    pass
+def sort_by_abc(string):
+    number_names = {
+        0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five",
+        6: "six", 7: "seven", 8: "eight", 9: "nine",
+        10: "ten", 11: "eleven", 12: "twelve",
+        13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen",
+        17: "seventeen", 18: "eighteen", 19: "nineteen"}
+    return sorted(map(int, string.split()), key=lambda x: number_names[x])
 
 
 """
@@ -185,3 +191,7 @@ if __name__ == "__main__":
         "one <class \'str\'>\ntwo <class \'str\'>\nthree <class \'str\'>\n" + \
         "two 2 <class \'int\'>\none 1 <class \'int\'>\n"
     print('print_given - OK')
+    assert sort_by_abc('0 1 1 2 3 5 8 13') == [8, 5, 1, 1, 13, 3, 2, 0]
+    assert sort_by_abc('18 8 12 2 13 6 4 1') == [8, 18, 4, 1, 6, 13, 12, 2]
+    assert sort_by_abc('18 8 13 3 16 6 19 9') == [8, 18, 9, 19, 6, 16, 13, 3]
+    print('sort_by_abc - OK')
