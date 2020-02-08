@@ -201,8 +201,23 @@ identity(57)
 """
 
 
-def introduce_on_debug(*args, **kwargs):
-    pass
+def introduce_on_debug(debug=False):
+    def inner(func):
+        def decorator(*args, **kwargs):
+            result = func(*args, **kwargs)
+            return f'{func.__name__}\n{result}' if debug else f'{result}'
+        return decorator
+    return inner
+
+
+@introduce_on_debug(debug=True)
+def identity_1(x):
+    return x
+
+
+@introduce_on_debug(debug=False)
+def identity_2(x):
+    return x
 
 
 """
@@ -241,3 +256,6 @@ if __name__ == "__main__":
     assert diff(2, 4, show=True) == 2
     assert my_print('world!', 'Hello, ', 'Vasja! ') == 'Vasja! Hello, world!'
     print('flip - OK')
+    assert identity_1(45) == "identity_1\n45"
+    assert identity_2(33) == "33"
+    print('introduce_on_debug - OK')
