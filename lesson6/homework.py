@@ -27,7 +27,13 @@ print_given()
 
 
 def print_given(*args, **kwargs):
-    pass
+    string = ''
+    for item in args:
+        string += f'{item} {type(item)}\n'
+    for key in kwargs:
+        string += f'{key} {kwargs[key]} {type(kwargs[key])}\n'
+    print(string)
+    return string
 
 
 """
@@ -167,4 +173,15 @@ def timer(*args, **kwargs):
 
 
 if __name__ == "__main__":
-    """Тут напиши тесты для задача"""
+    assert print_given(1, 2, '10') == "1 <class \'int\'>\n" + \
+        "2 <class \'int\'>\n" + \
+        "10 <class \'str\'>\n"
+    assert print_given(a=1, b=(2, 4), vas=[28]) == "a 1 <class \'int\'>\n" + \
+        "b (2, 4) <class \'tuple\'>\n" + \
+        "vas [28] <class \'list\'>\n"
+    assert print_given(1, 2, 3, [1, 2, 3], "one", "two", "three", two=2,
+                       one=1) == "1 <class \'int\'>\n2 <class \'int\'>\n" + \
+        "3 <class \'int\'>\n[1, 2, 3] <class \'list\'>\n" + \
+        "one <class \'str\'>\ntwo <class \'str\'>\nthree <class \'str\'>\n" + \
+        "two 2 <class \'int\'>\none 1 <class \'int\'>\n"
+    print('print_given - OK')
