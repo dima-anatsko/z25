@@ -150,8 +150,31 @@ div(2, 4, show=True)
 """
 
 
-def flip(*args, **kwargs):
-    pass
+def flip(func):
+    def decorator(*args, **kwargs):
+        args = tuple(list(args)[::-1])
+        return func(*args, **kwargs)
+    return decorator
+
+
+@flip
+def div(x, y, show=False):
+    res = x / y
+    if show:
+        print(res)
+    return res
+
+
+@flip
+def diff(x, y, show=False):
+    if show:
+        print(x - y)
+    return x - y
+
+
+@flip
+def my_print(*args):
+    return ''.join(args)
 
 
 """
@@ -214,3 +237,7 @@ if __name__ == "__main__":
     assert composition(my_square, my_add)(6) == 49
     assert composition(lambda x: x, composition(my_square, my_add))(5) == 36
     print('composition - OK')
+    assert div(2, 4, show=True) == 2.0
+    assert diff(2, 4, show=True) == 2
+    assert my_print('world!', 'Hello, ', 'Vasja! ') == 'Vasja! Hello, world!'
+    print('flip - OK')
