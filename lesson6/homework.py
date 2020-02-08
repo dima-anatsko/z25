@@ -152,7 +152,7 @@ div(2, 4, show=True)
 
 def flip(func):
     def decorator(*args, **kwargs):
-        args = tuple(list(args)[::-1])
+        args = args[::-1]
         return func(*args, **kwargs)
     return decorator
 
