@@ -1,3 +1,6 @@
+import time
+
+
 """
 Ex1
 Это простое упражнение на использование упаковок.
@@ -112,9 +115,7 @@ print(h(2, 3, 9))
 
 
 def composition(func_1, func_2):
-    def decorator(*args, **kwargs):
-        return func_1(func_2(*args, **kwargs))
-    return decorator
+    return lambda *args, **kwargs: func_1(func_2(*args, **kwargs))
 
 
 def my_add(number):
@@ -204,8 +205,9 @@ identity(57)
 def introduce_on_debug(debug=False):
     def inner(func):
         def decorator(*args, **kwargs):
-            result = func(*args, **kwargs)
-            return f'{func.__name__}\n{result}' if debug else f'{result}'
+            if debug:
+                print(func.__name__)
+            return func(*args, **kwargs)
         return decorator
     return inner
 
@@ -227,14 +229,10 @@ Ex6
 
 
 def timer(func):
-    from datetime import datetime
-
     def decorator(*args, **kwargs):
-        start = datetime.now()
+        start = time.time()
         result = func(*args, **kwargs)
-        end = datetime.now()
-        time = datetime.timestamp(end) - datetime.timestamp(start)
-        return result, time
+        return result, time.time() - start
     return decorator
 
 
@@ -255,11 +253,9 @@ def max_number_count_list(number):
 
 if __name__ == "__main__":
     assert print_given(1, 2, '10') == "1 <class \'int\'>\n" + \
-        "2 <class \'int\'>\n" + \
-        "10 <class \'str\'>\n"
+        "2 <class \'int\'>\n10 <class \'str\'>\n"
     assert print_given(a=1, b=(2, 4), vas=[28]) == "a 1 <class \'int\'>\n" + \
-        "b (2, 4) <class \'tuple\'>\n" + \
-        "vas [28] <class \'list\'>\n"
+        "b (2, 4) <class \'tuple\'>\nvas [28] <class \'list\'>\n"
     assert print_given(1, 2, 3, [1, 2, 3], "one", "two", "three", two=2,
                        one=1) == "1 <class \'int\'>\n2 <class \'int\'>\n" + \
         "3 <class \'int\'>\n[1, 2, 3] <class \'list\'>\n" + \
@@ -279,8 +275,8 @@ if __name__ == "__main__":
     assert diff(2, 4, show=False) == 2
     assert my_print('world!', 'Hello, ', 'Vasja! ') == 'Vasja! Hello, world!'
     print('flip - OK')
-    assert identity_1(45) == "identity_1\n45"
-    assert identity_2(33) == "33"
+    assert identity_1(45) == 45
+    assert identity_2(33) == 33
     print('introduce_on_debug - OK')
-    print(max_number_count_dict(100000))  # 0.02s
-    print(max_number_count_list(100000))  # 96.47s
+    print(max_number_count_dict(10000))  # 0.02s if 100000 items
+    print(max_number_count_list(10000))  # 96.47s if 100000 items
