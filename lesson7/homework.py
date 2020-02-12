@@ -1,4 +1,5 @@
 import time
+import re
 
 """1. Написать кэширующий декоратор,
 который принимает время (в секундах, сколько необюходимо хранить результат)
@@ -100,8 +101,12 @@ the printing 10-13-2018 and typesetting industry.
 """
 
 
-def get_datetimes(*args, **kwargs):
-    pass
+def get_datetimes(string):
+    pattern = re.compile(
+        r'((?:(?:0\d)|(?:1[0-2]))-(?:(?:[0-2]\d)|(?:3[0,1]))-\d{4})')
+    result = pattern.findall(string)
+    print(result)
+    return result
 
 
 """
@@ -152,3 +157,17 @@ if __name__ == "__main__":
     foo()
     foo1()
     print('count - ok')
+    str_one = '''Lorem Ipsum is simply 12-01-2018 dummy text of the printing
+     10-13-2018 and typesetting industry. 10-02-2018 Lorem Ipsum has been
+     the industry a s x'''
+    str_two = '''
+    With the support of the Communist Party, the country's name was changed
+    to the Republic of Belarus on 08-25-1991.[85] Stanislav Shushkevich,
+    the chairman of the Supreme Soviet of Belarus, met with Boris Yeltsin of
+    Russia and Leonid Kravchuk of Ukraine on 12-08-1991 in Belavezhskaya
+    Pushcha to formally declare the dissolution of the Soviet Union and the
+    formation of the Commonwealth of Independent States.[85]
+    '''
+    assert get_datetimes(str_one) == ['12-01-2018', '10-13-2018', '10-02-2018']
+    assert get_datetimes(str_two) == ['08-25-1991', '12-08-1991']
+    print('get_datetimes - ok')
