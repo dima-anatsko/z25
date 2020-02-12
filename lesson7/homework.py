@@ -104,9 +104,7 @@ the printing 10-13-2018 and typesetting industry.
 def get_datetimes(string):
     pattern = re.compile(
         r'((?:(?:0\d)|(?:1[0-2]))-(?:(?:[0-2]\d)|(?:3[0,1]))-\d{4})')
-    result = pattern.findall(string)
-    print(result)
-    return result
+    return pattern.findall(string)
 
 
 """
@@ -114,7 +112,7 @@ def get_datetimes(string):
 Написать функцию, которая извлекает все слова,
 начинающиеся на гласную(согласную). Какие слова извлекать - аргумент функции
 get_words('Lorem Ipsum is simply', sym=('consonants', 'vowels'))
->>> ['Lorem', 'Ipsum', 'is', 'sumply']
+>>> ['Lorem', 'Ipsum', 'is', 'simply']
 get_words('Lorem Ipsum is simply', sym=('consonants',))
 >>> ['Lorem', 'sumply']
 get_words('Lorem Ipsum is simply', sym=('vowels',))
@@ -122,8 +120,14 @@ get_words('Lorem Ipsum is simply', sym=('vowels',))
 """
 
 
-def get_words(*args, **kwargs):
-    pass
+def get_words(string, sym=('consonants', 'vowels')):
+    if sym == ('consonants',):
+        pattern = re.compile(r'\b[qwrtpsdfghklzxcvbnm]\w*', flags=re.I)
+    elif sym == ('vowels',):
+        pattern = re.compile(r'\b[aeyuio]\w*', flags=re.I)
+    else:
+        pattern = re.compile(r'\b[a-zA-Z]\w*')
+    return pattern.findall(string)
 
 
 """
@@ -171,3 +175,8 @@ if __name__ == "__main__":
     assert get_datetimes(str_one) == ['12-01-2018', '10-13-2018', '10-02-2018']
     assert get_datetimes(str_two) == ['08-25-1991', '12-08-1991']
     print('get_datetimes - ok')
+    text = 'Lorem Ipsum is simply'
+    assert get_words(text, ('vowels',)) == ['Ipsum', 'is']
+    assert get_words(text, sym=('consonants',)) == ['Lorem', 'simply']
+    assert get_words(text) == ['Lorem', 'Ipsum', 'is', 'simply']
+    print('get_words - ok')
