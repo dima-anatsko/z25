@@ -143,8 +143,9 @@ get_result(s)
 """
 
 
-def get_ping_info(*args, **kwargs):
-    pass
+def get_ping_info(string):
+    pattern = re.compile(r'((?<=seq=)\d+).+?((?<=time=)\d+\.\d+)', flags=re.S)
+    return tuple(pattern.findall(string))
 
 
 if __name__ == "__main__":
@@ -180,3 +181,12 @@ if __name__ == "__main__":
     assert get_words(text, sym=('consonants',)) == ['Lorem', 'simply']
     assert get_words(text) == ['Lorem', 'Ipsum', 'is', 'simply']
     print('get_words - ok')
+    text = '''64 bytes from 216.58.215.110: icmp_seq=0 ttl=54 time=30.391 ms
+    64 bytes from 216.58.215.110: icmp_seq=1 ttl=54 time=30.667 ms
+    64 bytes from 216.58.215.110: icmp_seq=2 ttl=54 time=33.201 ms
+    64 bytes from 216.58.215.110: icmp_seq=3 ttl=54 time=30.140 ms
+    64 bytes from 216.58.215.110: icmp_seq=4 ttl=54 time=31.822 ms'''
+    assert get_ping_info(text) == (
+        ('0', '30.391'), ('1', '30.667'), ('2', '33.201'), ('3', '30.140'),
+        ('4', '31.822'))
+    print('get_ping_info - ok')
