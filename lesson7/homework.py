@@ -64,8 +64,29 @@ def foo1():
 """
 
 
-def counter(*args, **kwargs):
-    pass
+def counter(text='Count - {}'):
+    def inner(func):
+        def decorator(*args, **kwargs):
+            counter._count = getattr(counter, '_count', {})
+            _name = func.__name__
+            counter._count[_name] = counter._count.get(_name, 0) + 1
+            result = func(*args, **kwargs)
+            print(text.format(counter._count[_name]))
+            return result
+
+        return decorator
+
+    return inner
+
+
+@counter()
+def foo():
+    return 1
+
+
+@counter("foo1 = {}")
+def foo1():
+    return 1
 
 
 """
@@ -124,3 +145,10 @@ if __name__ == "__main__":
     timer = time.time()
     print(func_diff(func_diff(func_diff(func_diff(func_diff(3))))))
     assert time.time() - timer < 10
+    print('cache - ok')
+    foo()
+    foo()
+    foo1()
+    foo()
+    foo1()
+    print('count - ok')
