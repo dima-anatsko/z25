@@ -1,3 +1,5 @@
+import time
+
 """1. Написать кэширующий декоратор,
 который принимает время (в секундах, сколько необюходимо хранить результат)
 
@@ -7,8 +9,34 @@ def foo():
 """
 
 
-def cache(*args, **kwargs):
-    pass
+def cache(_time):
+    def inner(func):
+        def decorator(*args, **kwargs):
+            cache._cache = getattr(cache, '_cache', {})
+            _key = (args, tuple(sorted(kwargs.items(), key=lambda i: i[0])))
+            result, time_cache = cache._cache.get(_key, (None, None))
+            if result is None or time.time() - time_cache > _time:
+                result, time_cache = func(*args, **kwargs), time.time()
+                cache._cache[_key] = result, time_cache
+            return result
+
+        return decorator
+
+    return inner
+
+
+@cache(10)
+def func(seconds):
+    time.sleep(seconds)
+    print(seconds)
+    return seconds
+
+
+@cache(10)
+def func_diff(seconds):
+    time.sleep(seconds)
+    print(seconds)
+    return seconds - 1 if seconds > 3 else 2
 
 
 """
@@ -90,4 +118,9 @@ def get_ping_info(*args, **kwargs):
 
 
 if __name__ == "__main__":
-    pass
+    timer = time.time()
+    print(func(func(func(func(5)))))
+    assert time.time() - timer < 10
+    timer = time.time()
+    print(func_diff(func_diff(func_diff(func_diff(func_diff(3))))))
+    assert time.time() - timer < 10
