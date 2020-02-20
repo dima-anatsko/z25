@@ -102,14 +102,17 @@ class Queue(LinkedList):
             raise Exception("Object is empty")
 
 
-a = Queue()
-_list = [x * 2 for x in range(10)]
-for i in _list:
-    a.push(i)
-print(a.peek)
-print(a.pop)
-print(a.pop)
-print(a.peek)
-a.push(44)
-print(a.peek)
-print(a.count)
+if __name__ == '__main__':
+    queue = Queue()
+    _list = [x * 2 for x in range(10)]
+    for i in _list:
+        queue.push(i)
+    assert queue.peek == _list[0]
+    assert [queue.pop for i in range(10)] == _list
+    print('Queue - ok')
+    stack = Stack()
+    for i in _list:
+        stack.push(i)
+    assert stack.peek == _list[-1]
+    assert [stack.pop for i in range(10)] == _list[::-1]
+    print('Stack - ok')
