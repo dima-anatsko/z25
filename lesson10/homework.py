@@ -23,6 +23,22 @@ MultiFileOpen(('file1.txt', 'r'), ('file2.txt', 'w'), ..., ('fileN.txt', 'rb'))
 """
 
 
+class MultiFileOpen:
+    def __init__(self, *args):
+        self._args = args
+        self._open = {}
+
+    def __enter__(self):
+        self._open = {item: open(*item) for item in self._args}
+        return self._open
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        for key in self._open:
+            self._open[key].close()
+        if exc_val:
+            raise
+
+
 """
 2.
 Напишите менеджер контекста Timer, который позволяет получать текущее время
@@ -41,3 +57,5 @@ if __name__ == '__main__':
     assert max_number([]) is None
     assert max_number([98, 9, 34]) == 99834
     print('max_number - OK')
+    with MultiFileOpen(('file1.txt', 'r'), ('file2.txt', 'w')) as file:
+        file[('file2.txt', 'w')].write(file[('file1.txt', 'r')].read())
