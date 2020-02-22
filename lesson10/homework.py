@@ -6,7 +6,13 @@
 
 
 def max_number(_list):
-    pass
+    res = None
+    if _list:
+        max_bit = len(str(max(_list)))
+        _list = list(map(str, _list))
+        _dict = {i: i + i[-1] * (max_bit - len(i)) for i in _list}
+        res = int(''.join(sorted(_list, key=lambda x: _dict[x], reverse=True)))
+    return res
 
 
 """
