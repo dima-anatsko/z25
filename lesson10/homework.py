@@ -7,14 +7,13 @@ import time
 """
 
 
+class MyStr(str):
+    def __lt__(self, other):
+        return self + other > other + self
+
+
 def max_number(_list):
-    res = None
-    if _list:
-        max_bit = len(str(max(_list)))
-        _list = list(map(str, _list))
-        _dict = {i: i + i[-1] * (max_bit - len(i)) for i in _list}
-        res = int(''.join(sorted(_list, key=lambda x: _dict[x], reverse=True)))
-    return res
+    return int(''.join(sorted(map(MyStr, _list)))) if _list else None
 
 
 """
@@ -37,8 +36,6 @@ class MultiFileOpen:
     def __exit__(self, exc_type, exc_val, exc_tb):
         for key in self._open:
             self._open[key].close()
-        if exc_val:
-            raise
 
 
 """
