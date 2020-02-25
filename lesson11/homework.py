@@ -76,10 +76,32 @@ class Factorials:
 """
 
 
+class BinomialCoefficients:
+    def __init__(self, n):
+        self._n = n
+        self._k = 0
+        self._res = 1
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._k == 0:
+            self._k += 1
+            return self._res
+        elif self._k <= self._n:
+            self._res = int(((self._n - self._k + 1) / self._k) * self._res)
+            self._k += 1
+            return self._res
+        raise StopIteration
+
+
 if __name__ == '__main__':
     for i in Fibonacci(10):
         print(i)
     for i in EvenNumber(11):
         print(i)
     for i in Factorials(5):
+        print(i)
+    for i in BinomialCoefficients(10):
         print(i)
