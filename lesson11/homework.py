@@ -50,6 +50,24 @@ class EvenNumber:
 """
 
 
+class Factorials:
+    def __init__(self, number):
+        self._number = number
+        self._start = 1
+        self._next = 1
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._number:
+            self._start *= self._next
+            self._next += 1
+            self._number -= 1
+            return self._start
+        raise StopIteration
+
+
 """
 4.*
 Напишите итератор BinomialCoefficients(n), генерирующий последовательность
@@ -62,4 +80,6 @@ if __name__ == '__main__':
     for i in Fibonacci(10):
         print(i)
     for i in EvenNumber(11):
+        print(i)
+    for i in Factorials(5):
         print(i)
