@@ -94,14 +94,3 @@ class BinomialCoefficients:
             self._k += 1
             return self._res
         raise StopIteration
-
-
-if __name__ == '__main__':
-    for i in Fibonacci(10):
-        print(i)
-    for i in EvenNumber(11):
-        print(i)
-    for i in Factorials(5):
-        print(i)
-    for i in BinomialCoefficients(10):
-        print(i)
