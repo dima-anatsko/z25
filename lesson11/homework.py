@@ -5,6 +5,22 @@ n включительно.
 """
 
 
+class Fibonacci:
+    def __init__(self, number):
+        self._one, self._two = 0, 1
+        self._number = number
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        while self._one <= self._number:
+            temp = self._one
+            self._one, self._two = self._two, self._two + self._one
+            return temp
+        raise StopIteration
+
+
 """
 2.
 Напишите класс, объектом которого будет итератор производящий только
@@ -25,3 +41,9 @@ n включительно.
 биномиальных коэффициентов C0n,C1n,…,Cnn
 Запрещается использовать факториалы.
 """
+
+
+if __name__ == '__main__':
+    c = Fibonacci(10)
+    for i in c:
+        print(i)
