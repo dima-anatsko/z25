@@ -15,7 +15,7 @@ CREATE TABLE answers
 (
     id           SERIAL PRIMARY KEY,
     answer       VARCHAR(100) NOT NULL,
-    true_answer  BOOLEAN  NOT NULL,
+    is_correct   BOOLEAN  NOT NULL,
     questions_id INTEGER REFERENCES questions (id)
 );
 
@@ -43,35 +43,35 @@ VALUES ('Какое растение существует на самом дел
        ('Какую площадь имеет клетка стандартной школьной тетради?'),
        ('Как назывались старинные русские пушки-гаубицы?');
 
-INSERT INTO answers(answer, true_answer, questions_id)
-VALUES ('1. Лох чилийский', false, 1),
-       ('2. Лох индийский', true, 1),
-       ('3. Лох греческий', false, 1),
-       ('4. Лох русский', false, 1),
-       ('1. Лондон', false, 2),
-       ('2. Париж', false, 2),
-       ('3. Рим', false,2),
-       ('4. Икеа', true, 2),
-       ('1. Свинг', false, 3),
-       ('2. Хук', false, 3),
-       ('3. Апперкот', true, 3),
-       ('4. Джэб', false, 3),
-       ('1. Проксиома Центавра', false, 4),
-       ('2. Солнце', true, 4),
-       ('3. Полярная', false, 4),
-       ('4. Сириус', false, 4),
-       ('1. Число Пи', true, 5),
-       ('2. Ряд активности металлов', false, 5),
-       ('3. Цвета радуги', false, 5),
-       ('4. Порядок падежей', false, 5),
-       ('1. 0.25 кв.см', true, 6),
-       ('2. 1 кв.см', false, 6),
-       ('3. 0.5 кв.см', false, 6),
-       ('4. 1.25 кв. см', false, 6),
-       ('1. Кентавр', false, 7),
-       ('2. Грифон', false, 7),
-       ('3. Василиск', false, 7),
-       ('4. Единорог', true, 7);
+INSERT INTO answers(answer, is_correct, questions_id)
+VALUES ('Лох чилийский', false, 1),
+       ('Лох индийский', true, 1),
+       ('Лох греческий', false, 1),
+       ('Лох русский', false, 1),
+       ('Лондон', false, 2),
+       ('Париж', false, 2),
+       ('Рим', false,2),
+       ('Икеа', true, 2),
+       ('Свинг', false, 3),
+       ('Хук', false, 3),
+       ('Апперкот', true, 3),
+       ('Джэб', false, 3),
+       ('Проксиома Центавра', false, 4),
+       ('Солнце', true, 4),
+       ('Полярная', false, 4),
+       ('Сириус', false, 4),
+       ('Число Пи', true, 5),
+       ('Ряд активности металлов', false, 5),
+       ('Цвета радуги', false, 5),
+       ('Порядок падежей', false, 5),
+       ('0.25 кв.см', true, 6),
+       ('1 кв.см', false, 6),
+       ('0.5 кв.см', false, 6),
+       ('1.25 кв. см', false, 6),
+       ('Кентавр', false, 7),
+       ('Грифон', false, 7),
+       ('Василиск', false, 7),
+       ('Единорог', true, 7);
 
 INSERT INTO answers_user(answer, user_id, questions_id)
 VALUES (1, 1, 1),
@@ -106,7 +106,7 @@ SELECT nick_name, answers_user.answer
 FROM answers, answers_user, app_user
 WHERE answers_user.questions_id = answers.questions_id AND
       answers_user.answer = answers.id AND
-      true_answer = TRUE AND
+      is_correct = TRUE AND
       user_id = app_user.id;
 
 --sum of correct responses from users
@@ -114,14 +114,14 @@ SELECT nick_name, count(nick_name) AS sum_true_answer
 FROM answers, answers_user, app_user
 WHERE answers_user.questions_id = answers.questions_id AND
       answers_user.answer = answers.id AND
-      true_answer = TRUE AND
+      is_correct = TRUE AND
       user_id = app_user.id
 GROUP BY nick_name;
 
 SELECT * FROM answers_user
     JOIN answers ON answers_user.questions_id = answers.questions_id AND
                     answers_user.answer = answers.id AND
-                    true_answer = TRUE;
+                    is_correct = TRUE;
 
 UPDATE answers_user
 SET answer = 2
