@@ -8,15 +8,22 @@ CREATE TABLE app_user
 CREATE TABLE questions
 (
     id          SERIAL PRIMARY KEY,
-    question    TEXT NOT NULL,
-    true_answer SMALLINT  NOT NULL
+    question    VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE answers
 (
-    answer       SMALLINT NOT NULL,
-    user_id      INTEGER references app_user (id),
-    questions_id INTEGER references questions (id),
+    id           SERIAL PRIMARY KEY,
+    answer       VARCHAR(100) NOT NULL,
+    true_answer  BOOLEAN  NOT NULL,
+    questions_id INTEGER REFERENCES questions (id)
+);
+
+CREATE TABLE answers_user
+(
+    answer       INTEGER REFERENCES answers (id),
+    user_id      INTEGER REFERENCES app_user (id),
+    questions_id INTEGER REFERENCES questions (id),
     PRIMARY KEY (user_id, questions_id)
 );
 
@@ -25,62 +32,99 @@ VALUES ('angry_birds', 'angry_birds@gmail.com'),
        ('qwerty', 'qwerty@mail.ru'),
        ('sergio_95', 'sergio_95@gmail.com');
 
-INSERT INTO questions(question, true_answer)
-VALUES ('Какое растение существует на самом деле?\n1. Лох чилийский' ||
-        '\n2.Лох индийский\n3. Лох греческий\4. Лох русский', 2),
+INSERT INTO questions(question)
+VALUES ('Какое растение существует на самом деле?'),
        ('Что за место, попав в которое, человек делает селфи на кухне, ' ||
-        'которую не может себе позволить?\n1. Лондон\n2. Париж\n3. Рим' ||
-        '\n4. Икеа', 4),
-       ('Что проводит боксер, наносящий удар противнику снизу?\n1. Свинг' ||
-        '\n2. Хук\n3. Апперкот\n4. Джэб', 3),
-       ('Как называется ближайшая к Земле звезда?\n1. Проксиома Центавра' ||
-        '\n2. Солнце\n3. Полярная\n4. Сириус', 2),
+        'которую не может себе позволить?'),
+       ('Что проводит боксер, наносящий удар противнику снизу?'),
+       ('Как называется ближайшая к Земле звезда?'),
        ('Что помогает запомнить мнемоническое правило «Это я знаю и помню ' ||
-        'прекрасно»?\n1. Число Пи\n2. Ряд активности металлов' ||
-        '\n3. Цвета радуги\n4. Порядок падежей', 1),
-       ('Какую площадь имеет клетка стандартной школьной тетради?' ||
-        '\n1. 0.25 кв.см\n2. 1 кв.см\n3. 0.5 кв.см\n4. 1.25 кв. см', 1),
-       ('Как назывались старинные русские пушки-гаубицы?\n1. Кентавр' ||
-        '\n2. Грифон\n3. Василиск\n4. Единорог', 4);
+        'прекрасно»?'),
+       ('Какую площадь имеет клетка стандартной школьной тетради?'),
+       ('Как назывались старинные русские пушки-гаубицы?');
 
-INSERT INTO answers(answer, user_id, questions_id)
+INSERT INTO answers(answer, true_answer, questions_id)
+VALUES ('1. Лох чилийский', false, 1),
+       ('2. Лох индийский', true, 1),
+       ('3. Лох греческий', false, 1),
+       ('4. Лох русский', false, 1),
+       ('1. Лондон', false, 2),
+       ('2. Париж', false, 2),
+       ('3. Рим', false,2),
+       ('4. Икеа', true, 2),
+       ('1. Свинг', false, 3),
+       ('2. Хук', false, 3),
+       ('3. Апперкот', true, 3),
+       ('4. Джэб', false, 3),
+       ('1. Проксиома Центавра', false, 4),
+       ('2. Солнце', true, 4),
+       ('3. Полярная', false, 4),
+       ('4. Сириус', false, 4),
+       ('1. Число Пи', true, 5),
+       ('2. Ряд активности металлов', false, 5),
+       ('3. Цвета радуги', false, 5),
+       ('4. Порядок падежей', false, 5),
+       ('1. 0.25 кв.см', true, 6),
+       ('2. 1 кв.см', false, 6),
+       ('3. 0.5 кв.см', false, 6),
+       ('4. 1.25 кв. см', false, 6),
+       ('1. Кентавр', false, 7),
+       ('2. Грифон', false, 7),
+       ('3. Василиск', false, 7),
+       ('4. Единорог', true, 7);
+
+INSERT INTO answers_user(answer, user_id, questions_id)
 VALUES (1, 1, 1),
-       (3, 1, 2),
-       (2, 1, 3),
-       (2, 1, 4),
-       (4, 1, 5),
-       (1, 1, 6),
-       (3, 1, 7),
+       (7, 1, 2),
+       (10, 1, 3),
+       (14, 1, 4),
+       (20, 1, 5),
+       (21, 1, 6),
+       (27, 1, 7),
        (2, 2, 1),
-       (2, 2, 2),
-       (2, 2, 3),
-       (2, 2, 4),
-       (2, 2, 5),
-       (2, 2, 6),
-       (2, 2, 7),
+       (6, 2, 2),
+       (10, 2, 3),
+       (14, 2, 4),
+       (18, 2, 5),
+       (22, 2, 6),
+       (26, 2, 7),
        (1, 3, 1),
-       (2, 3, 2),
-       (3, 3, 3),
-       (4, 3, 4),
-       (1, 3, 5),
-       (2, 3, 6),
-       (3, 3, 7);
+       (6, 3, 2),
+       (11, 3, 3),
+       (16, 3, 4),
+       (17, 3, 5),
+       (22, 3, 6),
+       (27, 3, 7);
 
 --tests
 --error duplicate key
-INSERT INTO answers(answer, user_id, questions_id)
-VALUES (3, 3, 7);
+INSERT INTO answers_user(answer, user_id, questions_id)
+VALUES (25, 3, 7);
 
 --output correct answers from users
-SELECT nick_name, questions_id, answer FROM answers, questions, app_user
-WHERE answer = true_answer AND
-      questions_id = questions.id AND
+SELECT nick_name, answers_user.answer
+FROM answers, answers_user, app_user
+WHERE answers_user.questions_id = answers.questions_id AND
+      answers_user.answer = answers.id AND
+      true_answer = TRUE AND
       user_id = app_user.id;
 
 --sum of correct responses from users
 SELECT nick_name, count(nick_name) AS sum_true_answer
-FROM answers, questions, app_user
-WHERE answer = true_answer AND
-      questions_id = questions.id AND
+FROM answers, answers_user, app_user
+WHERE answers_user.questions_id = answers.questions_id AND
+      answers_user.answer = answers.id AND
+      true_answer = TRUE AND
       user_id = app_user.id
 GROUP BY nick_name;
+
+SELECT * FROM answers_user
+    JOIN answers ON answers_user.questions_id = answers.questions_id AND
+                    answers_user.answer = answers.id AND
+                    true_answer = TRUE;
+
+UPDATE answers_user
+SET answer = 2
+WHERE
+    user_id = 1 AND
+    questions_id = 1;
