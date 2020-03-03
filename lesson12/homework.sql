@@ -5,10 +5,17 @@ CREATE TABLE app_user
     email     VARCHAR(60) NOT NULL UNIQUE
 );
 
+CREATE TABLE tests
+(
+    id      SERIAL PRIMARY KEY,
+    test    VARCHAR(60) NOT NULL
+);
+
 CREATE TABLE questions
 (
     id          SERIAL PRIMARY KEY,
-    question    VARCHAR(200) NOT NULL
+    question    VARCHAR(200) NOT NULL,
+    test_id     INTEGER REFERENCES tests (id)
 );
 
 CREATE TABLE answers
@@ -32,16 +39,21 @@ VALUES ('angry_birds', 'angry_birds@gmail.com'),
        ('qwerty', 'qwerty@mail.ru'),
        ('sergio_95', 'sergio_95@gmail.com');
 
-INSERT INTO questions(question)
-VALUES ('Какое растение существует на самом деле?'),
+INSERT INTO tests(test)
+VALUES ('Test 1'),
+       ('Test 2'),
+       ('Test 3');
+
+INSERT INTO questions(question, test_id)
+VALUES ('Какое растение существует на самом деле?', 1),
        ('Что за место, попав в которое, человек делает селфи на кухне, ' ||
-        'которую не может себе позволить?'),
-       ('Что проводит боксер, наносящий удар противнику снизу?'),
-       ('Как называется ближайшая к Земле звезда?'),
+        'которую не может себе позволить?', 1),
+       ('Что проводит боксер, наносящий удар противнику снизу?', 2),
+       ('Как называется ближайшая к Земле звезда?', 2),
        ('Что помогает запомнить мнемоническое правило «Это я знаю и помню ' ||
-        'прекрасно»?'),
-       ('Какую площадь имеет клетка стандартной школьной тетради?'),
-       ('Как назывались старинные русские пушки-гаубицы?');
+        'прекрасно»?', 1),
+       ('Какую площадь имеет клетка стандартной школьной тетради?', 3),
+       ('Как назывались старинные русские пушки-гаубицы?', 3);
 
 INSERT INTO answers(answer, is_correct, questions_id)
 VALUES ('Лох чилийский', false, 1),
