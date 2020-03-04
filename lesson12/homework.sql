@@ -31,7 +31,7 @@ CREATE TABLE answers_user
     user_id      INTEGER REFERENCES app_user (id),
     questions_id INTEGER REFERENCES questions (id),
     test_id      INTEGER REFERENCES tests (id),
-    PRIMARY KEY (user_id, questions_id)
+    PRIMARY KEY (user_id, questions_id, test_id)
 );
 
 INSERT INTO app_user(nick_name, email)
