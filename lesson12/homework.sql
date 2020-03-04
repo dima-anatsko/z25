@@ -15,7 +15,6 @@ CREATE TABLE questions
 (
     id          SERIAL PRIMARY KEY,
     question    VARCHAR(200) NOT NULL,
-    test_id     INTEGER REFERENCES tests (id)
 );
 
 CREATE TABLE answers
@@ -31,6 +30,7 @@ CREATE TABLE answers_user
     answer       INTEGER REFERENCES answers (id),
     user_id      INTEGER REFERENCES app_user (id),
     questions_id INTEGER REFERENCES questions (id),
+    test_id      INTEGER REFERENCES tests (id),
     PRIMARY KEY (user_id, questions_id)
 );
 
@@ -44,16 +44,16 @@ VALUES ('Test 1'),
        ('Test 2'),
        ('Test 3');
 
-INSERT INTO questions(question, test_id)
-VALUES ('Какое растение существует на самом деле?', 1),
+INSERT INTO questions(question)
+VALUES ('Какое растение существует на самом деле?'),
        ('Что за место, попав в которое, человек делает селфи на кухне, ' ||
-        'которую не может себе позволить?', 1),
-       ('Что проводит боксер, наносящий удар противнику снизу?', 2),
-       ('Как называется ближайшая к Земле звезда?', 2),
+        'которую не может себе позволить?'),
+       ('Что проводит боксер, наносящий удар противнику снизу?'),
+       ('Как называется ближайшая к Земле звезда?'),
        ('Что помогает запомнить мнемоническое правило «Это я знаю и помню ' ||
-        'прекрасно»?', 1),
-       ('Какую площадь имеет клетка стандартной школьной тетради?', 3),
-       ('Как назывались старинные русские пушки-гаубицы?', 3);
+        'прекрасно»?'),
+       ('Какую площадь имеет клетка стандартной школьной тетради?'),
+       ('Как назывались старинные русские пушки-гаубицы?');
 
 INSERT INTO answers(answer, is_correct, questions_id)
 VALUES ('Лох чилийский', false, 1),
@@ -85,33 +85,33 @@ VALUES ('Лох чилийский', false, 1),
        ('Василиск', false, 7),
        ('Единорог', true, 7);
 
-INSERT INTO answers_user(answer, user_id, questions_id)
-VALUES (1, 1, 1),
-       (7, 1, 2),
-       (10, 1, 3),
-       (14, 1, 4),
-       (20, 1, 5),
-       (21, 1, 6),
-       (27, 1, 7),
-       (2, 2, 1),
-       (6, 2, 2),
-       (10, 2, 3),
-       (14, 2, 4),
-       (18, 2, 5),
-       (22, 2, 6),
-       (26, 2, 7),
-       (1, 3, 1),
-       (6, 3, 2),
-       (11, 3, 3),
-       (16, 3, 4),
-       (17, 3, 5),
-       (22, 3, 6),
-       (27, 3, 7);
+INSERT INTO answers_user(answer, user_id, questions_id, test_id)
+VALUES (1, 1, 1, 1),
+       (7, 1, 2, 1),
+       (10, 1, 3, 1),
+       (14, 1, 4, 2),
+       (20, 1, 5, 2),
+       (21, 1, 6, 2),
+       (27, 1, 7, 3),
+       (2, 2, 1, 3),
+       (6, 2, 2, 3),
+       (10, 2, 3, 1),
+       (14, 2, 4, 1),
+       (18, 2, 5, 1),
+       (22, 2, 6, 2),
+       (26, 2, 7, 2),
+       (1, 3, 1, 2),
+       (6, 3, 2, 2),
+       (11, 3, 3, 3),
+       (16, 3, 4, 3),
+       (17, 3, 5, 3),
+       (22, 3, 6, 1),
+       (27, 3, 7, 1);
 
 --tests
 --error duplicate key
-INSERT INTO answers_user(answer, user_id, questions_id)
-VALUES (25, 3, 7);
+INSERT INTO answers_user(answer, user_id, questions_id, test_id)
+VALUES (25, 3, 7, 1);
 
 --output correct answers from users
 SELECT nick_name, answers_user.answer
