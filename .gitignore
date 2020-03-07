@@ -15,7 +15,10 @@ downloads/
 eggs/
 .eggs/
 lib/
+bin/
 lib64/
+lib64
+
 parts/
 sdist/
 var/
@@ -129,3 +132,6 @@ dmypy.json
 .pyre/
 .idea/*
 example.py
+*.txt
+*.cfg
+
