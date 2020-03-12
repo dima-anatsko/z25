@@ -101,54 +101,54 @@ BaseModel.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# users = [User(username=f'User {i}') for i in range(20)]
-# session.add_all(users)
-# session.commit()
-# questions = [Question(number=random.randint(i, 5000),
-#                       text=f'Text {i}') for i in range(300)]
-# session.add_all(questions)
-# session.commit()
-# tests = [Test(number=i, text=f'Test {i}') for i in range(50)]
-# session.add_all(tests)
-# session.commit()
-# answers = []
-# questions_set = session.query(Question).all()
-# for num, item in enumerate(questions_set, 1):
-#     correct = random.randint(0, 3)
-#     for j in range(4):
-#         answers.append(Answer(
-#             text=f'Answer {num * 4 - j}',
-#             is_correct=correct == j,
-#             question_id=item.id
-#         )
-#         )
-# session.add_all(answers)
-# session.commit()
-# tests = session.query(Test).all()
-# n = len(questions_set) // len(tests)
-# tests_questions = []
-# for num, test in enumerate(tests):
-#     for i in range(n):
-#         tests_questions.append(
-#             TestQuestion(test_id=test.id,
-#                          question_id=questions_set[n * num + i].id
-#                          )
-#         )
-# session.add_all(tests_questions)
-# session.commit()
-# users_answer = []
-# for user in session.query(User).all():
-#     for test_question in session.query(TestQuestion).all():
-#         answers_question = session.query(
-#             Answer).filter_by(question_id=test_question.question_id).all()
-#         users_answer.append(
-#             UserAnswer(tests_questions_id=test_question.id,
-#                        user_id=user.id,
-#                        answer_id=answers_question[random.randint(0, 3)].id
-#                        )
-#         )
-# session.add_all(users_answer)
-# session.commit()
+users = [User(username=f'User {i}') for i in range(20)]
+session.add_all(users)
+session.commit()
+questions = [Question(number=random.randint(i, 5000),
+                      text=f'Text {i}') for i in range(300)]
+session.add_all(questions)
+session.commit()
+tests = [Test(number=i, text=f'Test {i}') for i in range(50)]
+session.add_all(tests)
+session.commit()
+answers = []
+questions_set = session.query(Question).all()
+for num, item in enumerate(questions_set, 1):
+    correct = random.randint(0, 3)
+    for j in range(4):
+        answers.append(Answer(
+            text=f'Answer {num * 4 - j}',
+            is_correct=correct == j,
+            question_id=item.id
+        )
+        )
+session.add_all(answers)
+session.commit()
+tests = session.query(Test).all()
+n = len(questions_set) // len(tests)
+tests_questions = []
+for num, test in enumerate(tests):
+    for i in range(n):
+        tests_questions.append(
+            TestQuestion(test_id=test.id,
+                         question_id=questions_set[n * num + i].id
+                         )
+        )
+session.add_all(tests_questions)
+session.commit()
+users_answer = []
+for user in session.query(User).all():
+    for test_question in session.query(TestQuestion).all():
+        answers_question = session.query(
+            Answer).filter_by(question_id=test_question.question_id).all()
+        users_answer.append(
+            UserAnswer(tests_questions_id=test_question.id,
+                       user_id=user.id,
+                       answer_id=answers_question[random.randint(0, 3)].id
+                       )
+        )
+session.add_all(users_answer)
+session.commit()
 print(session.query(User).all())
 print(session.query(Test).all())
 print(session.query(Question).all())
