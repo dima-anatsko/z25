@@ -25,7 +25,30 @@
 
 <hr/>
 <div>
-    РЕШЕНИЕ ТУТ
+<h3 id="myH3"></h3>
+<input id="myInput">
+<button onclick="foo()">Check</button>
+<script type="text/javascript">
+    function foo() {
+        let myh3 = document.getElementById('myH3');
+        let insText = document.getElementById('myInput');
+        let open = 0;
+        let count = 0;
+        while (count < insText.value.length && open >= 0) {
+            if (insText.value[count] === '(') {
+                open++
+            }else if (insText.value[count] === ')') {
+                open--
+            }
+            count++
+        }
+        if (count === insText.value.length && open === 0){
+            myh3.innerText = 'true'
+        } else {
+            myh3.innerText = 'false'
+        }
+    }
+</script>
 </div>
 </body>
 </html>
