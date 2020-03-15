@@ -2,3 +2,7 @@ img.task {
     height: 200px;
     /*max-width: 500px;*/
 }
+
+table.task2 {border: 1px solid grey; width: 420px; height: 140px;}
+table.task2 th{border: 1px solid grey;}
+table.task2 td{border: 1px solid grey; padding-left: 4px;}
