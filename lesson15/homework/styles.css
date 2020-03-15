@@ -6,3 +6,9 @@ img.task {
 table.task2 {border: 1px solid grey; width: 420px; height: 140px;}
 table.task2 th{border: 1px solid grey;}
 table.task2 td{border: 1px solid grey; padding-left: 4px;}
+
+table.task3 {width: 1200px; border-spacing: 25px 5px;}
+table.task3 td{width: 20%; height: 200px;}
+td.black {background: black;}
+td.deepskyblue {background: deepskyblue;}
+td:hover {background: orange;}
