@@ -42,11 +42,7 @@
             }
             count++
         }
-        if (count === insText.value.length && open === 0){
-            myh3.innerText = 'true'
-        } else {
-            myh3.innerText = 'false'
-        }
+        myh3.innerText = String(count === insText.value.length && open === 0)
     }
 </script>
 </div>
